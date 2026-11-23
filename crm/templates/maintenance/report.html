@@ -1,0 +1,37 @@
+<style>
+body { font-family: sans-serif; color: #171717; font-size: 12px; }
+.head { border-bottom: 3px solid {{ color }}; padding-bottom: 10px; margin-bottom: 18px; }
+.brand { color: {{ color }}; font-size: 13px; font-weight: bold; }
+h1 { font-size: 20px; margin: 4px 0 2px; } h3 { font-size: 13px; margin: 18px 0 6px; color: {{ color }}; }
+.muted { color: #737373; }
+.score { font-size: 34px; font-weight: bold; color: {{ color }}; } .label { font-size: 13px; color: #404040; }
+table { width: 100%; border-collapse: collapse; }
+td, th { text-align: left; padding: 5px 8px; border-bottom: 1px solid #e5e5e5; }
+.Done { color: #15803d; } .Issue { color: #b91c1c; font-weight: bold; } .NA { color: #737373; }
+.shot { margin: 8px 0; } .shot img { max-width: 100%; border: 1px solid #e5e5e5; }
+.foot { margin-top: 26px; color: #737373; font-size: 11px; border-top: 1px solid #e5e5e5; padding-top: 8px; }
+</style>
+<div class="head">
+  <div class="brand">{{ brand }}</div>
+  <h1>{{ client.client_name }} - Website care report</h1>
+  <div class="muted">{{ frappe.utils.formatdate(doc.month, "MMMM yyyy") }}{% if client.website %} &middot; {{ client.website }}{% endif %}</div>
+</div>
+<table style="border:0"><tr>
+  <td style="border:0"><div class="score">{{ doc.score }}/100</div><div class="label">{{ doc.score_label }}</div></td>
+  <td style="border:0; text-align:right"><div class="muted">Hours used</div><div style="font-size:18px; font-weight:bold">{{ doc.hours_used }}h / {{ doc.hours_included or 0 }}h</div></td>
+</tr></table>
+
+{% for cat, items in categories.items() %}
+<h3>{{ cat }}</h3>
+<table>
+{% for i in items %}<tr>
+  <td>{{ i.item }}{% if i.note %}<div class="muted">{{ i.note }}</div>{% endif %}</td>
+  <td style="width:70px" class="{{ (i.status or 'Unchecked') | replace('/', '') }}">{{ i.status or "Not checked" }}</td>
+</tr>{% endfor %}
+</table>
+{% endfor %}
+
+{% if doc.summary %}<h3>Summary of the month</h3><div>{{ doc.summary | e | replace("\n", "<br>") }}</div>{% endif %}
+{% if doc.recommendations %}<h3>Recommendations / next steps</h3><div>{{ doc.recommendations | e | replace("\n", "<br>") }}</div>{% endif %}
+{% for s in doc.screenshots %}<div class="shot"><img src="{{ base_url }}{{ s.image }}">{% if s.caption %}<div class="muted">{{ s.caption }}</div>{% endif %}</div>{% endfor %}
+<div class="foot">{{ settings.report_footer or "" }}{% if settings.company_website %} &middot; {{ settings.company_website }}{% endif %}</div>
