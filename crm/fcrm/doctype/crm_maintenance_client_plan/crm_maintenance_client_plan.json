@@ -1,0 +1,81 @@
+{
+ "actions": [],
+ "creation": "2026-11-23 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "service",
+  "tier",
+  "custom",
+  "monthly_price",
+  "annual_price",
+  "hours_per_month",
+  "deliverables"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "label": "Plan",
+   "options": "CRM Maintenance Plan",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Data",
+   "label": "Service",
+   "fetch_from": "plan.service",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tier",
+   "fieldtype": "Data",
+   "label": "Tier",
+   "fetch_from": "plan.tier_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "custom",
+   "fieldtype": "Check",
+   "label": "Custom"
+  },
+  {
+   "fieldname": "monthly_price",
+   "fieldtype": "Currency",
+   "label": "Monthly Price",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "annual_price",
+   "fieldtype": "Currency",
+   "label": "Annual Price"
+  },
+  {
+   "fieldname": "hours_per_month",
+   "fieldtype": "Float",
+   "label": "Hours Per Month",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "deliverables",
+   "fieldtype": "Small Text",
+   "label": "Deliverables"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-11-23 00:00:01.000000",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "CRM Maintenance Client Plan",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1,
+ "permissions": []
+}

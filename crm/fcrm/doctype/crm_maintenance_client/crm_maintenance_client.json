@@ -1,0 +1,290 @@
+{
+ "actions": [],
+ "creation": "2026-11-23 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "client_name",
+  "organization",
+  "agency",
+  "project_manager",
+  "website",
+  "platform",
+  "cb1",
+  "status",
+  "start_date",
+  "contract_end",
+  "contact_name",
+  "contact_email",
+  "report_to",
+  "sb_bill",
+  "billing_cycle",
+  "extra_hours_rate",
+  "price",
+  "hours_included",
+  "cb2",
+  "months_paid",
+  "paid_till",
+  "next_payment_due",
+  "total_received",
+  "sb_plans",
+  "plans",
+  "sb_pay",
+  "payments",
+  "sb_inv",
+  "invoices",
+  "sb_hours",
+  "time_logs",
+  "sb_check",
+  "checklist",
+  "over_hours_alert_month"
+ ],
+ "fields": [
+  {
+   "fieldname": "client_name",
+   "fieldtype": "Data",
+   "label": "Client Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "organization",
+   "fieldtype": "Link",
+   "label": "CRM Organization (optional)",
+   "options": "CRM Organization"
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "CRM Maintenance Agency"
+  },
+  {
+   "fieldname": "project_manager",
+   "fieldtype": "Link",
+   "label": "Project Manager",
+   "options": "User"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Data",
+   "label": "Platform"
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nPaused\nEnded",
+   "default": "Active",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1,
+   "default": "Today"
+  },
+  {
+   "fieldname": "contract_end",
+   "fieldtype": "Date",
+   "label": "Contract End"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Report Recipient Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "report_to",
+   "fieldtype": "Select",
+   "label": "Report To",
+   "options": "Client\nAgency",
+   "default": "Client"
+  },
+  {
+   "fieldname": "sb_bill",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "billing_cycle",
+   "fieldtype": "Select",
+   "label": "Billing Cycle",
+   "options": "Monthly\nAnnual",
+   "default": "Monthly"
+  },
+  {
+   "fieldname": "extra_hours_rate",
+   "fieldtype": "Currency",
+   "label": "Extra Hours Rate"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price per cycle",
+   "read_only": 1
+  },
+  {
+   "fieldname": "hours_included",
+   "fieldtype": "Float",
+   "label": "Hours / month",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb2",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "months_paid",
+   "fieldtype": "Int",
+   "label": "Cycles paid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "paid_till",
+   "fieldtype": "Date",
+   "label": "Paid Till",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_payment_due",
+   "fieldtype": "Date",
+   "label": "Next Payment Due",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_received",
+   "fieldtype": "Currency",
+   "label": "Total Received",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_plans",
+   "fieldtype": "Section Break",
+   "label": "Plans"
+  },
+  {
+   "fieldname": "plans",
+   "fieldtype": "Table",
+   "label": "Plans",
+   "options": "CRM Maintenance Client Plan"
+  },
+  {
+   "fieldname": "sb_pay",
+   "fieldtype": "Section Break",
+   "label": "Payments"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "CRM Maintenance Payment"
+  },
+  {
+   "fieldname": "sb_inv",
+   "fieldtype": "Section Break",
+   "label": "Invoices"
+  },
+  {
+   "fieldname": "invoices",
+   "fieldtype": "Table",
+   "label": "Invoices",
+   "options": "CRM Maintenance Invoice"
+  },
+  {
+   "fieldname": "sb_hours",
+   "fieldtype": "Section Break",
+   "label": "Hours"
+  },
+  {
+   "fieldname": "time_logs",
+   "fieldtype": "Table",
+   "label": "Time Logs",
+   "options": "CRM Maintenance Time Log"
+  },
+  {
+   "fieldname": "sb_check",
+   "fieldtype": "Section Break",
+   "label": "Extra checklist items for this client"
+  },
+  {
+   "fieldname": "checklist",
+   "fieldtype": "Table",
+   "label": "Checklist",
+   "options": "CRM Maintenance Checklist Item"
+  },
+  {
+   "fieldname": "over_hours_alert_month",
+   "fieldtype": "Date",
+   "label": "Over Hours Alert Month",
+   "hidden": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-11-23 00:00:01.000000",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "CRM Maintenance Client",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "autoname": "format:MC-{####}",
+ "title_field": "client_name"
+}

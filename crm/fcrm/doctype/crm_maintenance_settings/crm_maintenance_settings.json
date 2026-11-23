@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "creation": "2026-11-23 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company_name",
+  "company_website",
+  "brand_color",
+  "default_currency",
+  "send_from",
+  "reply_to",
+  "report_footer",
+  "sb",
+  "extra_hours_rate",
+  "renewal_alert_days",
+  "head_emails"
+ ],
+ "fields": [
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "company_website",
+   "fieldtype": "Data",
+   "label": "Company Website"
+  },
+  {
+   "fieldname": "brand_color",
+   "fieldtype": "Color",
+   "label": "Brand Color"
+  },
+  {
+   "fieldname": "default_currency",
+   "fieldtype": "Select",
+   "label": "Default Currency",
+   "options": "USD\nGBP\nEUR\nAUD\nCAD\nINR\nAED",
+   "default": "USD"
+  },
+  {
+   "fieldname": "send_from",
+   "fieldtype": "Data",
+   "label": "Send emails from"
+  },
+  {
+   "fieldname": "reply_to",
+   "fieldtype": "Data",
+   "label": "Reply-to email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "report_footer",
+   "fieldtype": "Data",
+   "label": "Report Footer"
+  },
+  {
+   "fieldname": "sb",
+   "fieldtype": "Section Break",
+   "label": "Extra hours & renewals"
+  },
+  {
+   "fieldname": "extra_hours_rate",
+   "fieldtype": "Currency",
+   "label": "Hourly rate for extra hours"
+  },
+  {
+   "fieldname": "renewal_alert_days",
+   "fieldtype": "Int",
+   "label": "Contract renewal alert (days before end)",
+   "default": "30"
+  },
+  {
+   "fieldname": "head_emails",
+   "fieldtype": "Small Text",
+   "label": "Head / management emails (comma separated)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-11-23 00:00:01.000000",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "CRM Maintenance Settings",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "issingle": 1
+}
