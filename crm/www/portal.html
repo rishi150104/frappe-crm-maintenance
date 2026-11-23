@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support portal</title>
+<style>
+  :root { --ink:#171717; --muted:#737373; --line:#e5e7eb; --bg:#f8f8f8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Inter, system-ui, sans-serif; color:var(--ink); background:var(--bg); font-size:14px; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+  main { max-width:880px; margin:24px auto; padding:0 16px; }
+  h1 { font-size:16px; margin:0; } h2 { font-size:15px; margin:24px 0 8px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:8px; }
+  .row { display:flex; justify-content:space-between; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line); align-items:center; }
+  .row:last-child { border-bottom:0; } .muted { color:var(--muted); font-size:13px; }
+  button, .btn { background:var(--ink); color:#fff; border:0; border-radius:6px; padding:6px 12px; cursor:pointer; font:inherit; text-decoration:none; }
+  button.ghost { background:#efefef; color:var(--ink); }
+  input, select, textarea { width:100%; border:1px solid var(--line); border-radius:6px; padding:8px; font:inherit; margin-top:4px; }
+  label { display:block; margin:10px 0; font-size:13px; color:var(--muted); }
+  .badge { background:#efefef; border-radius:4px; padding:2px 8px; font-size:12px; }
+  .msg { padding:10px 16px; border-bottom:1px solid var(--line); white-space:pre-wrap; } .msg.me { background:#f3f9f4; }
+  .tabs { display:flex; gap:20px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+  .tabs a { padding:8px 0; cursor:pointer; color:var(--muted); } .tabs a.on { color:var(--ink); border-bottom:2px solid var(--ink); }
+</style>
+</head>
+<body>
+<header><h1 id="title">Support portal</h1><div><span class="muted" id="who"></span> <button class="ghost" id="logout">Log out</button></div></header>
+<main id="app"></main>
+<script>
+const CSRF = "{{ csrf_token }}";
+const app = document.getElementById("app");
+// All content is inserted via textContent, never innerHTML: ticket text comes from clients.
+const h = (tag, attrs = {}, ...kids) => {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k.startsWith("on") ? el.addEventListener(k.slice(2), v) : el.setAttribute(k, v);
+  kids.flat().forEach(c => el.append(c instanceof Node ? c : document.createTextNode(c ?? "")));
+  return el;
+};
+async function call(method, args = {}) {
+  const r = await fetch("/api/method/crm.api.maintenance_portal." + method, {
+    method: "POST", headers: { "Content-Type": "application/json", "X-Frappe-CSRF-Token": CSRF }, body: JSON.stringify(args) });
+  const j = await r.json();
+  if (!r.ok) throw new Error((j._server_messages && JSON.parse(JSON.parse(j._server_messages)[0]).message) || j.exception || "Request failed");
+  return j.message;
+}
+let data, tab = "reports";
+const fmt = d => (d || "").slice(0, 10);
+
+async function load() {
+  try { data = await call("get_portal"); }
+  catch (e) { app.replaceChildren(h("p", {}, "This account has no portal access yet. Please contact us.")); return; }
+  document.getElementById("who").textContent = data.name || "";
+  if (data.company) document.getElementById("title").textContent = data.company + " - Support portal";
+  render();
+}
+function render() {
+  const tabs = h("div", { class: "tabs" }, ...["reports", "tickets"].map(t =>
+    h("a", { class: t === tab ? "on" : "", onclick: () => { tab = t; render(); } }, t === "reports" ? "Reports" : "Support tickets")));
+  app.replaceChildren(tabs, tab === "reports" ? reports() : tickets());
+}
+function reports() {
+  if (!data.reports.length) return h("p", { class: "muted" }, "No reports have been sent yet.");
+  return h("div", { class: "card" }, data.reports.map(r => h("div", { class: "row" },
+    h("div", {}, h("div", {}, new Date(r.month).toLocaleString("en", { month: "long", year: "numeric" })),
+      h("div", { class: "muted" }, (data.clients.find(c => c.name === r.client) || {}).client_name || "")),
+    h("div", {}, h("span", { class: "badge" }, `${r.score}/100 - ${r.score_label}`), " ",
+      h("a", { class: "btn", href: "/api/method/crm.api.maintenance_portal.download_report?report=" + encodeURIComponent(r.name) }, "Download PDF")))));
+}
+function tickets() {
+  const list = h("div", { class: "card" }, data.tickets.length ? data.tickets.map(t => h("div", { class: "row", style: "cursor:pointer", onclick: () => openTicket(t.name) },
+    h("div", {}, h("div", {}, t.subject), h("div", { class: "muted" }, `${t.name} - ${t.ticket_type}`)),
+    h("span", { class: "badge" }, `${t.priority} / ${t.status}`))) : [h("div", { class: "row muted" }, "No tickets yet.")]);
+  return h("div", {}, h("div", { style: "margin-bottom:12px" }, h("button", { onclick: newTicket }, "New ticket")), list);
+}
+function newTicket() {
+  const f = {};
+  const field = (k, label, el) => { f[k] = el; return h("label", {}, label, el); };
+  const sel = (opts) => h("select", {}, opts.map(o => h("option", {}, o)));
+  app.replaceChildren(h("h2", {}, "New ticket"), h("div", { class: "card", style: "padding:16px" },
+    field("client", "Website", sel(data.clients.map(c => c.name))),
+    field("subject", "Subject", h("input", {})),
+    field("ticket_type", "Type", sel(["Bug / something broken", "Content change", "New feature", "Question", "Other"])),
+    field("priority", "Priority", sel(["Low", "Normal", "High", "Urgent"])),
+    field("description", "Details", h("textarea", { rows: 5 })),
+    h("button", { onclick: async () => {
+      if (!f.subject.value.trim()) return alert("Please add a subject.");
+      const clientName = f.client.value;
+      await call("create_ticket", { client: clientName, subject: f.subject.value, description: f.description.value, ticket_type: f.ticket_type.value, priority: f.priority.value });
+      await load(); tab = "tickets"; render();
+    } }, "Submit"), " ", h("button", { class: "ghost", onclick: render }, "Cancel")));
+  // show client names but submit ids
+  const sc = f.client; sc.replaceChildren(...data.clients.map(c => { const o = h("option", { value: c.name }, c.client_name); return o; }));
+}
+async function openTicket(name) {
+  const t = await call("get_ticket", { name });
+  const box = h("textarea", { rows: 3, placeholder: "Write a reply" });
+  app.replaceChildren(h("button", { class: "ghost", onclick: render }, "Back"), h("h2", {}, t.subject),
+    h("p", { class: "muted" }, `${t.name} - ${t.priority} - ${t.status}`),
+    h("div", { class: "card" }, h("div", { class: "msg" }, t.description || ""), t.replies.map(r => h("div", { class: "msg" + (r.is_client ? " me" : "") }, h("div", { class: "muted" }, `${r.by_name || ""} - ${fmt(r.creation)}`), r.message))),
+    h("div", { style: "margin-top:12px" }, box, h("button", { onclick: async () => {
+      if (!box.value.trim()) return;
+      await call("reply_ticket", { name, message: box.value }); await load(); openTicket(name);
+    } }, "Send reply")));
+}
+document.getElementById("logout").onclick = async () => {
+  await fetch("/api/method/logout", { method: "POST", headers: { "X-Frappe-CSRF-Token": CSRF } }); location.href = "/login";
+};
+load();
+</script>
+</body>
+</html>
