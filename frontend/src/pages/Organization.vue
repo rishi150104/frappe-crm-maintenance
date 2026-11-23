@@ -162,6 +162,7 @@
       <template #tab-label="{ tab }">{{ __(tab.label) }}</template>
       <template #tab-suffix="{ tab, active }">
         <Badge
+          v-if="tab.count !== undefined"
           :class="[active ? 'bg-surface-gray-10' : 'bg-gray-600']"
           variant="solid"
           theme="gray"
@@ -185,8 +186,12 @@
           :columns="columns"
           :options="{ selectable: false, showTooltip: false }"
         />
+        <MaintenanceTab
+          v-if="tab.value === 'maintenance'"
+          :organization="organizationId"
+        />
         <EmptyState
-          v-if="!rows.length"
+          v-if="tab.value !== 'maintenance' && !rows.length"
           :icon="tab.iconLeft"
           :name="__(tab.label)"
           :description="
@@ -234,6 +239,8 @@ import ContactsListView from '@/components/ListViews/ContactsListView.vue'
 import WebsiteIcon from '@/components/Icons/WebsiteIcon.vue'
 import CameraIcon from '@/components/Icons/CameraIcon.vue'
 import DealsIcon from '@/components/Icons/DealsIcon.vue'
+import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
+import MaintenanceTab from '@/components/Maintenance/MaintenanceTab.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import DeleteLinkedDocModal from '@/components/DeleteLinkedDocModal.vue'
 import ContactModal from '@/components/Modals/ContactModal.vue'
@@ -441,6 +448,7 @@ const tabs = [
     iconLeft: ContactsIcon,
     count: computed(() => contacts.data?.length),
   },
+  { value: 'maintenance', label: 'Maintenance', iconLeft: OrganizationsIcon },
 ]
 
 const deals = createListResource({

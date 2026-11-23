@@ -104,6 +104,68 @@ const routes = [
     props: true,
   },
   {
+    path: '/maintenance',
+    name: 'Maintenance',
+    component: () => import('@/pages/Maintenance.vue'),
+  },
+  {
+    path: '/maintenance/clients',
+    name: 'MaintenanceClients',
+    component: () => import('@/pages/MaintenanceClients.vue'),
+  },
+  {
+    path: '/maintenance/clients/:clientId',
+    name: 'MaintenanceClient',
+    component: () => import('@/pages/MaintenanceClient.vue'),
+    props: true,
+  },
+  {
+    path: '/maintenance/agencies',
+    name: 'MaintenanceAgencies',
+    component: () => import('@/pages/MaintenanceAgencies.vue'),
+  },
+  {
+    path: '/maintenance/payments',
+    name: 'MaintenancePayments',
+    component: () => import('@/pages/MaintenancePayments.vue'),
+  },
+  {
+    path: '/maintenance/tickets',
+    name: 'MaintenanceTickets',
+    component: () => import('@/pages/MaintenanceTickets.vue'),
+  },
+  {
+    path: '/maintenance/client-logins',
+    name: 'MaintenanceLogins',
+    component: () => import('@/pages/MaintenanceLogins.vue'),
+  },
+  {
+    path: '/maintenance/reports',
+    name: 'MaintenanceReports',
+    component: () => import('@/pages/MaintenanceReports.vue'),
+  },
+  {
+    path: '/maintenance/reports/:reportId',
+    name: 'MaintenanceReport',
+    component: () => import('@/pages/MaintenanceReport.vue'),
+    props: true,
+  },
+  {
+    path: '/maintenance/hours',
+    name: 'MaintenanceHours',
+    component: () => import('@/pages/MaintenanceHours.vue'),
+  },
+  {
+    path: '/maintenance/plans',
+    name: 'MaintenancePlans',
+    component: () => import('@/pages/MaintenancePlans.vue'),
+  },
+  {
+    path: '/maintenance/settings',
+    name: 'MaintenanceSettings',
+    component: () => import('@/pages/MaintenanceSettings.vue'),
+  },
+  {
     alias: '/call-logs',
     path: '/call-logs/view/:viewType?',
     name: 'Call Logs',

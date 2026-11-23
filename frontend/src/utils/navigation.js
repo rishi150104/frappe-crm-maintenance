@@ -6,6 +6,7 @@ import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
+import LucideWrench from '~icons/lucide/wrench'
 import router from '@/router'
 
 export const navigationItems = [
@@ -19,6 +20,7 @@ export const navigationItems = [
   { label: 'Deals', icon: DealsIcon, route: 'Deals' },
   { label: 'Contacts', icon: ContactsIcon, route: 'Contacts' },
   { label: 'Organizations', icon: OrganizationsIcon, route: 'Organizations' },
+  { label: 'Maintenance', icon: LucideWrench, route: 'Maintenance' },
   { label: 'Notes', icon: NoteIcon, route: 'Notes' },
   { label: 'Tasks', icon: TaskIcon, route: 'Tasks' },
   { label: 'Call Logs', icon: PhoneIcon, route: 'Call Logs' },
